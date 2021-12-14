@@ -109,7 +109,7 @@ void accommodationWithRepetitions(size_t countElm,ofstream& file)
 
 	int* set = inputFirstElm(maxSizeArray);
 
-	file << " Размещения с повторениями из " << countElm << " элементов по " << k << " с начальным элементом" << set[0] <<"\n";
+	file << " Размещения с повторениями из " << countElm << " элементов по " << k << " с начальным элементом " << set[0] <<"\n";
 	int i = 1;
 	file << i << " : ";
 	print(set, k,file);
@@ -289,17 +289,12 @@ void CombinationsWithRepetitions(size_t countElm, ofstream& file)
 	int i = 1;
 	file << i << " : ";
 	print(set, k,file);
-	if (countElm >= k)
+	while (nextSequenceCombinationsWithRepeat(set, countElm, k))
 	{
-		while (nextSequenceCombinationsWithRepeat(set, countElm, k))
-		{
-			i++;
-			file << i << " : ";
-			print(set, k, file);
-		}
+		i++;
+		file << i << " : ";
+		print(set, k, file);
 	}
-	else
-		file << " k > n ---> = 0\n";
 	delete[] set;
 }
 
@@ -311,6 +306,8 @@ bool nextSequenceCombinationsWithRepeat(int* set, size_t countElm, size_t k)
 		j--;
 	if (j < 0)
 		return false;
+	if (set[j] >= countElm)
+		j--;
 	set[j]++;
 	if (j == k - 1)
 		return true;
@@ -332,7 +329,7 @@ void Subsets(size_t countElm, ofstream& file)
 
 	for (int i = 0; i < max; i++)
 	{
-		file << i << " : ";
+		file << i+1 << " : ";
 		for (int j = 0; j < countElm; j++)
 		{
 			// if ((i >> j) & 1) //(сдвигает биты i на j  вправо , аналог, делить i на 2 в степ j) & если сдвиг даст бит 1 то будет true, аналог деление на 2 без остатка) 
