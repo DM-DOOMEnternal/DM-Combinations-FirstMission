@@ -35,8 +35,6 @@ int main()
 	ofstream file(pathFile);
 	while (!file)
 	{
-		/*cout << "Файл не может быть открыт или создан ";
-		return -1;*/
 		pathFile = "";
 		cout << " Путь к файл указан не вверно либо файла не существует. \n Укажите заново путь: ";
 		getline(cin, pathFile);
@@ -86,6 +84,7 @@ int main()
 		default:
 			break;
 		}
+
 		bool repeat = false;
 		cout << " Продолжить ? (1)";
 		cin >> repeat;
@@ -94,10 +93,12 @@ int main()
 			file.close();
 			break;
 		}
-	}
-	
-}
 
+	}//конец for
+	
+}//конец main
+
+//-----------------Размещения с повторениями-------------------------
 void accommodationWithRepetitions(size_t countElm,ofstream& file)
 {
 	cout << " Введите k : ";
@@ -138,8 +139,9 @@ bool nextSequence(int* set, size_t countElm, size_t k, int temp)
 	for (int m = j + 1; m < k; m++)
 		set[m] = temp;
 	return true;
-}
+}//-----------------Размещения с повторениями-------------------------
 
+//-----------------Размещения без повторений-------------------------
 void accommodationWithoutRepetitions(size_t countElm, ofstream& file)
 {
 	cout << " Введите k : ";
@@ -182,9 +184,9 @@ bool nextSequence(int* set, size_t countElm, size_t k)
 		sortTheRestOfTheSequence(set, j, countElm);
 	} while (j > k - 1);
 	return true;
-}
+}//-----------------Размещения без повторений-------------------------
 
-
+//-----------------Перестановки-------------------------
 void permutations(size_t countElm, ofstream& file)
 {
 	int* set = inputSet(countElm);
@@ -220,8 +222,9 @@ bool nextSequencePermutations(int* set, size_t countElm)
 
 	sortTheRestOfTheSequence(set, j, countElm); //сор ост элементы
 	return true;
-}
+}//-----------------Перестановки-------------------------
 
+//-----------------Сочетания без повторений-------------------------
 void CombinationsWithoutRepetitions(size_t countElm, ofstream& file)
 {
 	cout << " Введите k : ";
@@ -268,8 +271,9 @@ bool nextSequenceCombinations(int* set, size_t countElm, size_t k)
 		}
 	}
 	return false;
-}
+}//-----------------Сочетания без повторений-------------------------
 
+//-----------------Сочетания с повторениями-------------------------
 void CombinationsWithRepetitions(size_t countElm, ofstream& file)
 {
 	cout << " Введите k : ";
@@ -280,7 +284,7 @@ void CombinationsWithRepetitions(size_t countElm, ofstream& file)
 
 	int* set = inputFirstElm(maxSizeArray);
 
-	file << " Сочетания с повторенями из " << countElm << " элементов по " << k << " c начальным элементом " << set[0] << "\n";
+	file << " Сочетания с повторениями из " << countElm << " элементов по " << k << " c начальным элементом " << set[0] << "\n";
 
 	int i = 1;
 	file << i << " : ";
@@ -313,7 +317,8 @@ bool nextSequenceCombinationsWithRepeat(int* set, size_t countElm, size_t k)
 	for (int m = j + 1; m < k; m++)
 		set[m] = set[j];
 	return true;
-}
+}//-----------------Сочетания с повторениями-------------------------
+
 
 void Subsets(size_t countElm, ofstream& file)
 {
