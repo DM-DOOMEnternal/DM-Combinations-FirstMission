@@ -1,0 +1,13 @@
+﻿  combinatorics.cpp
+C:\Users\Knight\Documents\C++\3 semestr\DM\combinatorics\combinatorics.cpp(32): warning C4129: {: неизвестная escape-последовательность
+C:\Users\Knight\Documents\C++\3 semestr\DM\combinatorics\combinatorics.cpp(32): warning C4129: : неизвестная escape-последовательность
+C:\Users\Knight\Documents\C++\3 semestr\DM\combinatorics\combinatorics.cpp(134): warning C4018: >=: несоответствие типов со знаком и без знака
+C:\Users\Knight\Documents\C++\3 semestr\DM\combinatorics\combinatorics.cpp(139): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\Knight\Documents\C++\3 semestr\DM\combinatorics\combinatorics.cpp(184): warning C4018: >: несоответствие типов со знаком и без знака
+C:\Users\Knight\Documents\C++\3 semestr\DM\combinatorics\combinatorics.cpp(263): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\Knight\Documents\C++\3 semestr\DM\combinatorics\combinatorics.cpp(318): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\Knight\Documents\C++\3 semestr\DM\combinatorics\combinatorics.cpp(330): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\Knight\Documents\C++\3 semestr\DM\combinatorics\combinatorics.cpp(336): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\Knight\Documents\C++\3 semestr\DM\combinatorics\combinatorics.cpp(339): warning C4244: инициализация: преобразование "double" в "int", возможна потеря данных
+C:\Users\Knight\Documents\C++\3 semestr\DM\combinatorics\combinatorics.cpp(358): warning C4018: <: несоответствие типов со знаком и без знака
+  combinatorics.vcxproj -> C:\Users\Knight\Documents\C++\3 semestr\DM\combinatorics\Debug\combinatorics.exe
