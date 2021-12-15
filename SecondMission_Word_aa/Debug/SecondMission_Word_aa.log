@@ -1,6 +1,0 @@
-﻿  SecondMission_Word_aa.cpp
-C:\Users\Knight\Documents\C++\3 semestr\DM\SecondMission_Word_aa\SecondMission_Word_aa.cpp(30): warning C4129: {: неизвестная escape-последовательность
-C:\Users\Knight\Documents\C++\3 semestr\DM\SecondMission_Word_aa\SecondMission_Word_aa.cpp(30): warning C4129: : неизвестная escape-последовательность
-C:\Users\Knight\Documents\C++\3 semestr\DM\SecondMission_Word_aa\SecondMission_Word_aa.cpp(115): warning C4018: >=: несоответствие типов со знаком и без знака
-C:\Users\Knight\Documents\C++\3 semestr\DM\SecondMission_Word_aa\SecondMission_Word_aa.cpp(120): warning C4018: <: несоответствие типов со знаком и без знака
-  SecondMission_Word_aa.vcxproj -> C:\Users\Knight\Documents\C++\3 semestr\DM\SecondMission_Word_aa\Debug\SecondMission_Word_aa.exe
