@@ -1,27 +1,31 @@
 ﻿#include <iostream>
-#include<cmath>
+#include <cmath>
 #include <fstream>
-#include<string>
+#include <string>
+#include <algorithm>
 using namespace std;
 
-void accommodationWithRepetitions(size_t ,ofstream&);
+void accommodationWithRepetitions(ofstream&);
+void inputUserAlphabet(std::string& s);
 bool nextSequence(int*, size_t, size_t, int);
-void accommodationWithoutRepetitions(size_t, ofstream&);
-bool nextSequence(int* , size_t , size_t );
-void permutations(size_t, ofstream&);
-bool nextSequencePermutations(int* , size_t);
-void CombinationsWithoutRepetitions(size_t , ofstream&);
-bool nextSequenceCombinations(int* , size_t , size_t );
-void CombinationsWithRepetitions(size_t, ofstream&);
+void accommodationWithoutRepetitions(ofstream&);
+bool nextSequence(int*, size_t, size_t);
+void permutations(ofstream&);
+bool nextSequencePermutations(int*, size_t);
+void CombinationsWithoutRepetitions(ofstream&);
+bool nextSequenceCombinations(int*, size_t, size_t);
+void CombinationsWithRepetitions(ofstream&);
 bool nextSequenceCombinationsWithRepeat(int*, size_t, size_t);
-void Subsets(size_t, ofstream&);
-int* inputSet(size_t);
-int* inputFirstElm(int);
+void Subsets(ofstream&);
+int* fillSet(size_t);
+int* fillSetFirstElm(int);
 bool findIndexElm_firstOccurrence_whichLessCurrent(int&, int*);
 void sortTheRestOfTheSequence(int*, int, size_t);
-int maxSize(size_t , size_t );
-void print(int*, int, ofstream&);
-void sort(int* , int );
+int maxSize(size_t, size_t);
+
+void print(int*, int, ofstream&, string);
+void translate(int, string, ofstream&);
+
 
 
 int main()
@@ -30,7 +34,7 @@ int main()
 	cout << " \t\tКомбинаторные алгоритмы \n";
 
 	cout << " Все данные записываются в файл. Введите путь файла (формата Диск:\{папка}\ файл.формат )\n :";
-	string pathFile="";
+	string pathFile = "";
 	getline(cin, pathFile);
 	ofstream file(pathFile);
 	while (!file)
@@ -42,7 +46,7 @@ int main()
 	}
 
 	for (;;)
-	{	
+	{
 		cout << "\n 1.Построить все размещения с повторениями по k элементов."
 			"\n 2.Построить все размещения без повторений по k элементов."
 			"\n 3. Построить все перестановки."
@@ -52,39 +56,36 @@ int main()
 
 		cout << " Выбор пал на ----> ";
 		int choice = 0; cin >> choice;
-		cout << " \nВведите количество элементов : ";
-		size_t countElm = 0;
-		cin >> countElm;
+
 		switch (choice)
 		{
 		case 1:
-			accommodationWithRepetitions(countElm,file);
+			accommodationWithRepetitions(file);
 			cout << "Данные успешно записаны в файл\n";
 			break;
 		case 2:
-			accommodationWithoutRepetitions(countElm,file);
+			accommodationWithoutRepetitions(file);
 			cout << "Данные успешно записаны в файл\n";
 			break;
 		case 3:
-			permutations(countElm,file);
+			permutations(file);
 			cout << "Данные успешно записаны в файл\n";
 			break;
 		case 4:
-			CombinationsWithoutRepetitions(countElm,file);
+			CombinationsWithoutRepetitions(file);
 			cout << "Данные успешно записаны в файл\n";
 			break;
 		case 5:
-			CombinationsWithRepetitions(countElm,file);
+			CombinationsWithRepetitions(file);
 			cout << "Данные успешно записаны в файл\n";
 			break;
 		case 6:
-			Subsets(countElm,file);
+			Subsets(file);
 			cout << "Данные успешно записаны в файл\n";
 			break;
 		default:
 			break;
 		}
-
 		bool repeat = false;
 		cout << " Продолжить ? (1)";
 		cin >> repeat;
@@ -93,35 +94,46 @@ int main()
 			file.close();
 			break;
 		}
+	}
+}
 
-	}//конец for
-	
-}//конец main
-
-//-----------------Размещения с повторениями-------------------------
-void accommodationWithRepetitions(size_t countElm,ofstream& file)
+void accommodationWithRepetitions(ofstream& file)
 {
+	cout << " Заполните множество элементами : ";
+	string userAlphabet_set;
+	inputUserAlphabet(userAlphabet_set);
+
 	cout << " Введите k : ";
 	size_t k = 0;
 	cin >> k;
 
-	int maxSizeArray = maxSize(countElm, k);
+	int maxSizeArray = maxSize(userAlphabet_set.length(), k);
 
-	int* set = inputFirstElm(maxSizeArray);
+	int* set = fillSetFirstElm(maxSizeArray);
 
-	file << " Размещения с повторениями из " << countElm << " элементов по " << k << " с начальным элементом " << set[0] <<"\n";
-	int i = 1;
-	file << i << " : ";
-	print(set, k,file);
-	
-	while (nextSequence(set, countElm, k, set[0]))
+	file << " Размещения с повторениями из " << userAlphabet_set.length() << " элементов по " << k << " с начальным элементом" << userAlphabet_set[0] << "\n";
+	int indexLineFile = 1;
+	file << indexLineFile << " : ";
+	print(set, k, file, userAlphabet_set);
+
+	while (nextSequence(set, userAlphabet_set.length(), k, set[0]))
 	{
-		i++;
-		file << i << " : ";
-		print(set, k, file);		
+		indexLineFile++;
+		file << indexLineFile << " : ";
+		print(set, k, file, userAlphabet_set);
 	}
-		
+
 	delete[] set;
+}
+
+void inputUserAlphabet(std::string& s)
+{
+	cin.ignore();
+	getline(cin, s);
+	s.erase(remove(s.begin(), s.end(), ' '), s.end());
+	int s2 = s.length();
+	unique_copy(s.begin(), s.end(), back_inserter(s));//unique_copy(s.begin(), s.end(), ostreambuf_iterator<char>(cout)); удалить повторяющиеся элементы и вывести
+	s.erase(0, s2);
 }
 
 bool nextSequence(int* set, size_t countElm, size_t k, int temp)
@@ -139,30 +151,32 @@ bool nextSequence(int* set, size_t countElm, size_t k, int temp)
 	for (int m = j + 1; m < k; m++)
 		set[m] = temp;
 	return true;
-}//-----------------Размещения с повторениями-------------------------
+}
 
-//-----------------Размещения без повторений-------------------------
-void accommodationWithoutRepetitions(size_t countElm, ofstream& file)
+void accommodationWithoutRepetitions(ofstream & file)
 {
+
+	cout << " Заполните множество элементами : ";
+	string userAlphabet_set;
+	inputUserAlphabet(userAlphabet_set);
+
 	cout << " Введите k : ";
 	size_t k = 0;
 	cin >> k;
 
-	int* set = inputSet(countElm);
+	int* set = fillSet(userAlphabet_set.length());
 
-	file << " Размещения без повторенияй из " << countElm << " элементов  по " << k << "\n";
-	sort(set, countElm);
-	int i = 1;
-	file << i << " : ";
-	print(set, k,file);
+	file << " Размещения без повторенияй из " << userAlphabet_set.length() << " элементов  по " << k << "\n";
+	int indexLineFile = 1;
+	file << indexLineFile << " : ";
+	print(set, k, file, userAlphabet_set);
 
-	while (nextSequence(set, countElm, k))
+	while (nextSequence(set, userAlphabet_set.length(), k))
 	{
-		i++;
-		file << i << " : ";
-		print(set, k, file);
+		indexLineFile++;
+		file << indexLineFile << " : ";
+		print(set, k, file, userAlphabet_set);
 	}
-		
 
 	delete[] set;
 }
@@ -172,9 +186,9 @@ bool nextSequence(int* set, size_t countElm, size_t k)
 	int j = 0;
 	do
 	{
-		 j = countElm - 1;
-		 if (findIndexElm_firstOccurrence_whichLessCurrent(j, set) == false)
-			 return false;
+		j = countElm - 1;
+		if (findIndexElm_firstOccurrence_whichLessCurrent(j, set) == false)
+			return false;
 
 		int m = countElm - 1;
 		while (set[j] >= set[m])
@@ -184,26 +198,29 @@ bool nextSequence(int* set, size_t countElm, size_t k)
 		sortTheRestOfTheSequence(set, j, countElm);
 	} while (j > k - 1);
 	return true;
-}//-----------------Размещения без повторений-------------------------
+}
 
-//-----------------Перестановки-------------------------
-void permutations(size_t countElm, ofstream& file)
+
+void permutations(ofstream & file)
 {
-	int* set = inputSet(countElm);
+	cout << " Заполните множество элементами : ";
+	string userAlphabet_set;
+	inputUserAlphabet(userAlphabet_set);
 
-	file << " Перестановки из " << countElm << " элементов \n";
-	sort(set, countElm);
-	int i = 1;
-	file << i << " : ";
-	print(set, countElm,file);
+	int* set = fillSet(userAlphabet_set.length());
 
-	while (nextSequencePermutations(set, countElm))
+	file << " Перестановки из " << userAlphabet_set.length() << " элементов \n";
+	int indexLineFile = 1;
+	file << indexLineFile << " : ";
+	print(set, userAlphabet_set.length(), file, userAlphabet_set);
+
+	while (nextSequencePermutations(set, userAlphabet_set.length()))
 	{
-		i++;
-		file << i << " : ";
-		print(set, countElm, file);
+		indexLineFile++;
+		file << indexLineFile << " : ";
+		print(set, userAlphabet_set.length(), file, userAlphabet_set);
 	}
-		
+
 	delete[] set;
 }
 
@@ -222,39 +239,39 @@ bool nextSequencePermutations(int* set, size_t countElm)
 
 	sortTheRestOfTheSequence(set, j, countElm); //сор ост элементы
 	return true;
-}//-----------------Перестановки-------------------------
+}
 
-//-----------------Сочетания без повторений-------------------------
-void CombinationsWithoutRepetitions(size_t countElm, ofstream& file)
+void CombinationsWithoutRepetitions(ofstream & file)
 {
+	cout << " Заполните множество элементами : ";
+	string userAlphabet_set;
+	inputUserAlphabet(userAlphabet_set);
+
 	cout << " Введите k : ";
 	size_t k = 0;
 	cin >> k;
 
-	int* set = inputSet(countElm);
+	int* set = fillSet(userAlphabet_set.length());
 
-	file << " Сочетания без повторений из " << countElm << " элементов по " << k << "\n";
-	sort(set, countElm);
+	file << " Сочетания без повторений из " << userAlphabet_set.length() << " элементов по " << k << "\n";
 
-	int i = 1;
-	file << i << " : ";
-	print(set, k,file);
-	if (countElm >= k)
+	int indexLineFile = 1;
+	file << indexLineFile << " : ";
+	print(set, k, file, userAlphabet_set);
+	if (userAlphabet_set.length() >= k)
 	{
-		while (nextSequenceCombinations(set, countElm, k))
+		while (nextSequenceCombinations(set, userAlphabet_set.length(), k))
 		{
-			i++;
-			file << i << " : ";
-			print(set, k, file);
+			indexLineFile++;
+			file << indexLineFile << " : ";
+			print(set, k, file, userAlphabet_set);
 		}
-			
 	}
 	else
 		file << " k > n ---> = 0\n";
 
 	delete[] set;
 }
-
 
 
 bool nextSequenceCombinations(int* set, size_t countElm, size_t k)
@@ -271,30 +288,39 @@ bool nextSequenceCombinations(int* set, size_t countElm, size_t k)
 		}
 	}
 	return false;
-}//-----------------Сочетания без повторений-------------------------
+}
 
-//-----------------Сочетания с повторениями-------------------------
-void CombinationsWithRepetitions(size_t countElm, ofstream& file)
+void CombinationsWithRepetitions(ofstream & file)
 {
+	cout << " Заполните множество элементами : ";
+	string userAlphabet_set;
+	inputUserAlphabet(userAlphabet_set);
+
 	cout << " Введите k : ";
 	size_t k = 0;
 	cin >> k;
 
-	int maxSizeArray = maxSize(countElm, k);
+	int maxSizeArray = maxSize(userAlphabet_set.length(), k);
 
-	int* set = inputFirstElm(maxSizeArray);
+	int* set = fillSetFirstElm(maxSizeArray);
 
-	file << " Сочетания с повторениями из " << countElm << " элементов по " << k << " c начальным элементом " << set[0] << "\n";
+	file << " Сочетания с повторенями из " << userAlphabet_set.length() << " элементов по " << k << " c начальным элементом " << set[0] << "\n";
 
-	int i = 1;
-	file << i << " : ";
-	print(set, k,file);
-	while (nextSequenceCombinationsWithRepeat(set, countElm, k))
+	int indexLineFile = 1;
+	file << indexLineFile << " : ";
+	print(set, k, file, userAlphabet_set);
+	if (userAlphabet_set.length() >= k)
 	{
-		i++;
-		file << i << " : ";
-		print(set, k, file);
+		while (nextSequenceCombinationsWithRepeat(set, userAlphabet_set.length(), k))
+		{
+			indexLineFile++;
+			file << indexLineFile << " : ";
+			print(set, k, file, userAlphabet_set);
+		}
 	}
+	else
+		file << " k > n ---> = 0\n";
+
 	delete[] set;
 }
 
@@ -306,64 +332,60 @@ bool nextSequenceCombinationsWithRepeat(int* set, size_t countElm, size_t k)
 		j--;
 	if (j < 0)
 		return false;
-	if (set[j] >= countElm)
-		j--;
 	set[j]++;
 	if (j == k - 1)
 		return true;
 	for (int m = j + 1; m < k; m++)
 		set[m] = set[j];
 	return true;
-}//-----------------Сочетания с повторениями-------------------------
+}
 
-
-void Subsets(size_t countElm, ofstream& file)
+void Subsets(ofstream & file)
 {
-	int* set = inputSet(countElm);
+	cout << " Заполните множество элементами : ";
+	string userAlphabet_set;
+	inputUserAlphabet(userAlphabet_set);
 
-	sort(set, countElm);
-	file << " Множество из " << countElm << " элементов \n";
+	int* set = fillSet(userAlphabet_set.length());
+
+	file << " Множество из " << userAlphabet_set.length() << " элементов \n";
 	int max = 1;
-	for (int i = 0; i < countElm; i++)
+	for (int i = 0; i < userAlphabet_set.length(); i++)
 		max *= 2;
 
 	for (int i = 0; i < max; i++)
 	{
-		file << i+1 << " : ";
-		for (int j = 0; j < countElm; j++)
+		file << i << " : ";
+		for (int j = 0; j < userAlphabet_set.length(); j++)
 		{
 			// if ((i >> j) & 1) //(сдвигает биты i на j  вправо , аналог, делить i на 2 в степ j) & если сдвиг даст бит 1 то будет true, аналог деление на 2 без остатка) 
 			int temp = i / pow(2, j);
 			if (temp % 2 != 0)//(если поставить четные то порядок от большего к меньшему) порядок от меньшего к большему
 			{
-				file << set[j] << " ";
-				cout << set[j] << " ";
+				translate(set[j], userAlphabet_set, file);
 			}
-				
+
 		}
 		file << endl;
 		cout << endl;
 	}
-	
+
 	delete[] set;
 }
 
-int* inputSet(size_t countElm)
+int* fillSet(size_t countElm)
 {
 	int* set = new int[countElm];
-	cout << " Заполните множества элементами ( " << countElm << ") : ";
 	for (int i = 0; i < countElm; i++)
-		cin >> set[i];
+		set[i] = i + 1;
 	return set;
 }
 
-int* inputFirstElm(int countElm)
+int* fillSetFirstElm(int countElm)
 {
 	int* set = new int[countElm];
-	cout << " Введите начальный элемент : ";
-	int temp = 0; cin >> temp;
 	for (int i = 0; i < countElm; i++)
-		set[i] = temp;
+		set[i] = 1;
 	return set;
 }
 
@@ -392,23 +414,26 @@ void sortTheRestOfTheSequence(int* set, int j, size_t countElm)
 	}
 }
 
-void sort(int* set, int countElm)
-{
-	for (int i = 0; i < countElm; i++)
-	{
-		for (int j = 0; j < countElm; j++)
-			if (set[i] < set[j])
-				swap(set[i], set[j]);
-	}
-}
 
-void print(int* set, int countElm,ofstream& file)
+void print(int* set, int countElm, ofstream & file, string text)
 {
 	for (int i = 0; i < countElm; i++)
 	{
-		file << set[i] << " ";
-		cout << set[i] << " ";
+		translate(set[i], text, file);
 	}
 	file << endl;
 	cout << endl;
+}
+
+void translate(int elm, string text, ofstream & file)
+{
+	for (int i = 0; i < text.size(); i++)
+	{
+		if (elm == i + 1)
+		{
+			file << text[i] << " ";
+			cout << text[i] << " ";
+			break;
+		}
+	}
 }
