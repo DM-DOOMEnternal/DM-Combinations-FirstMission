@@ -1,20 +1,22 @@
-﻿#include <iostream>
+ 
+#include <iostream>
 #include <fstream>
 #include <string>
 #include <cmath>
-#include <vector>
 
 using namespace std;
 
-void permutationsWithRepeat(ofstream&, int);
+void permutationsWithRepeat(ofstream&,int);
 bool nextSequencePermutationsWithRepeat(int*, size_t);
 bool findIndexElm_firstOccurrence_whichLessCurrent(int&, int*);
 void sortTheRestOfTheSequence(int*, int, size_t);
-void fillInTheSet(int*, int[2], int);
+void fillInTheSet(int*, int[2],int);
+int inputSymbol();
+int indexWord(char symbolRepeat);
 
 void print(int*, int, ofstream&, int*, int&);
 void printWord(int, ofstream&);
-bool checkCountWord_userWords(int*, int[2], int);
+bool checkCountWord_userWords(int*,int[2],int);
 bool notRepeatThePreviousSet(int*, int*, int);
 void countUserWord(int set, int symbolRepeat, int& k);
 
@@ -79,75 +81,81 @@ int main()
 		cerr << " Error: " << exception << "\n";
 	}
 	catch (...) {}
-
+	
 }
 
-void permutationsWithRepeat(ofstream& file, int length)
+void permutationsWithRepeat(ofstream & file,int length) 
 {
-	int word = 0;
+	int symbolsRepeat[2]{ 0,0 };
+    symbolsRepeat[0] =inputSymbol();
+	if (length == 6)
+	{
+		symbolsRepeat[1] = inputSymbol();
+	}
+		
+	int* set = new int[length+2];
+	fillInTheSet(set, symbolsRepeat, length + 2);
+
+	int* setLast = new int[length+2]{};
+	int indexLine = 0;
+
+	if(checkCountWord_userWords(set,symbolsRepeat,length))
+		print(set, length, file, setLast, indexLine);
+
+	while (nextSequencePermutationsWithRepeat(set, length+2))
+	{
+		if (checkCountWord_userWords(set,symbolsRepeat,length) == true)
+		{
+			print(set, length, file, setLast, indexLine);
+		}
+	}
+	delete[] set;
+}
+
+int inputSymbol()
+{
+	char symbolRepeat = ' ';
+	cout << " Введите символ из множества, который будет повторяться два раза : ";
+	cin >> symbolRepeat;
 	do
 	{
-		word++;
-		int symbolsRepeat[2]{ 0,0 };
-		symbolsRepeat[0] = word;
-		if (length == 6)
-		{
-			symbolsRepeat[1] = word + 1;
-			while (symbolsRepeat[1] != 7)
-			{
-				int* set = new int[length + 2];
-				fillInTheSet(set, symbolsRepeat, length + 2);
-
-				int* setLast = new int[length + 2]{};
-				int indexLine = 0;
-
-				if (checkCountWord_userWords(set, symbolsRepeat, length))
-					print(set, length, file, setLast, indexLine);
-
-				while (nextSequencePermutationsWithRepeat(set, length + 2))
-				{
-					if (checkCountWord_userWords(set, symbolsRepeat, length) == true)
-					{
-						print(set, length, file, setLast, indexLine);
-					}
-				}
-				delete[] set;
-				symbolsRepeat[1]++;
-			}
-
-		}
+		if (symbolRepeat >= 'a' && symbolRepeat <= 'f')
+			break;
 		else
-		{
-			int* set = new int[length + 2];
-			fillInTheSet(set, symbolsRepeat, length + 2);
+			cout << " Данный символ не входит во множество. Введите заново : ";
+		cin >> symbolRepeat;
 
-			int* setLast = new int[length + 2]{};
-			int indexLine = 0;
-
-			if (checkCountWord_userWords(set, symbolsRepeat, length))
-				print(set, length, file, setLast, indexLine);
-
-			while (nextSequencePermutationsWithRepeat(set, length + 2))
-			{
-				if (checkCountWord_userWords(set, symbolsRepeat, length) == true)
-				{
-					print(set, length, file, setLast, indexLine);
-				}
-			}
-			delete[] set;
-		}
-
-	} while (word < 6);
-
+	} while (true);
+	
+	return indexWord(symbolRepeat);
 }
 
-
-
-void fillInTheSet(int* set, int symbolsRepeat[2], int length)
+int indexWord(char symbolRepeat)
 {
-	for (int i = 0, numberWord = 1; i < length; i++, numberWord++)
+	switch (symbolRepeat)
 	{
-		if (numberWord != symbolsRepeat[0] && numberWord != symbolsRepeat[1])
+	case 'a':
+		return 1;
+	case 'b':
+		return 2;
+	case 'c':
+		return 3;
+	case 'd':
+		return 4;
+	case 'e':
+		return 5;
+	case 'f':
+		return 6;
+	default:
+		return 0;
+	}
+}
+
+void fillInTheSet(int* set, int symbolsRepeat[2],int length)
+{
+	for (int i = 0,numberWord=1; i < length; i++,numberWord++)
+	{
+		if (numberWord != symbolsRepeat[0] && numberWord!=symbolsRepeat[1])
 		{
 			set[i] = numberWord;
 		}
@@ -262,13 +270,13 @@ void printWord(int number, ofstream & file)
 	}
 }
 
-bool checkCountWord_userWords(int* set, int userWords[2], int length)
+bool checkCountWord_userWords(int* set,int userWords[2],int length)
 {
-	for (int i = 0, firstUserWord = 0, secondUserWord = 0; i < length; i++)
+	for (int i = 0, firstUserWord = 0,secondUserWord=0; i < length; i++)
 	{
 		if (userWords[1] == 0)
 		{
-			countUserWord(set[i], userWords[0], firstUserWord);
+		    countUserWord(set[i], userWords[0], firstUserWord);
 			if (firstUserWord == 2)
 				return true;
 		}
@@ -279,7 +287,7 @@ bool checkCountWord_userWords(int* set, int userWords[2], int length)
 			if (firstUserWord == 2 && secondUserWord == 2)
 				return true;
 		}
-
+		
 	}
 	return false;
 }
