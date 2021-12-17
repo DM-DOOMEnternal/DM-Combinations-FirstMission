@@ -1,0 +1,6 @@
+﻿  FifthMission_Word_aa__.cpp
+C:\Users\Knight\Documents\C++\3 semestr\DM\FifthMission_Word_aa__\FifthMission_Word_aa__.cpp(33): warning C4129: {: неизвестная escape-последовательность
+C:\Users\Knight\Documents\C++\3 semestr\DM\FifthMission_Word_aa__\FifthMission_Word_aa__.cpp(33): warning C4129: : неизвестная escape-последовательность
+C:\Users\Knight\Documents\C++\3 semestr\DM\FifthMission_Word_aa__\FifthMission_Word_aa__.cpp(212): warning C4018: >=: несоответствие типов со знаком и без знака
+C:\Users\Knight\Documents\C++\3 semestr\DM\FifthMission_Word_aa__\FifthMission_Word_aa__.cpp(217): warning C4018: <: несоответствие типов со знаком и без знака
+  FifthMission_Word_aa__.vcxproj -> C:\Users\Knight\Documents\C++\3 semestr\DM\FifthMission_Word_aa__\Debug\FifthMission_Word_aa__.exe

@@ -1,0 +1,22 @@
+¬се слова длины 4, в которых больше двух букв 'a'
+1 : a a a b 
+2 : a a b a 
+3 : a b a a 
+4 : b a a a 
+5 : a a a c 
+6 : a a c a 
+7 : a c a a 
+8 : c a a a 
+9 : a a a d 
+10 : a a d a 
+11 : a d a a 
+12 : d a a a 
+13 : a a a e 
+14 : a a e a 
+15 : a e a a 
+16 : e a a a 
+17 : a a a f 
+18 : a a f a 
+19 : a f a a 
+20 : f a a a 
+a a a a
